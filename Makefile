@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS_IMPORTANT = -Wall
+CXXFLAGS_IMPORTANT = -Wall -lcurl
 RM = rm -rf
 PREFIX = /usr/bin
 PROGRAM_NAME = spacetraders
