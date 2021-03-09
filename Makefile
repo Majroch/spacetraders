@@ -3,13 +3,13 @@ CXXFLAGS_IMPORTANT = -Wall
 RM = rm -rf
 PREFIX = /usr/bin
 PROGRAM_NAME = spacetraders
-PROGRAM_BUILD_DIR = build
+LIBS = util.o
 
-all: build-folder
-	$(CXX) $(CXXFLAGS_IMPORTANT) spacetraders.cpp -o $(PROGRAM_BUILD_DIR)/spacetraders $(CXXFLAGS) $(CXXLIBS)
+all: $(LIBS)
+	$(CXX) $(CXXFLAGS_IMPORTANT) spacetraders.cpp $(LIBS) -o spacetraders $(CXXFLAGS) $(CXXLIBS)
+
+util.o:
+	$(CXX) $(CXXFLAGS_IMPORTANT) -c ./libs/util.cpp -o util.o
     
-build-folder:
-	mkdir -p $(PROGRAM_BUILD_DIR)
-
 clean:
-	$(RM) $(PROGRAM_BUILD_DIR)
+	$(RM) $(LIBS) $(PROGRAM_NAME)
