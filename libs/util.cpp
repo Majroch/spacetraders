@@ -97,3 +97,15 @@ bool fileExists(std::string filename) {
 
     return true;
 }
+
+void _toLower(std::string *_str) {
+    for(long unsigned int i = 0; i < (*_str).length(); i++) {
+        (*_str)[i] = tolower((*_str)[i]);
+    }
+}
+
+void _toUpper(std::string *_str) {
+    for(long unsigned int i = 0; i < (*_str).length(); i++) {
+        (*_str)[i] = toupper((*_str)[i]);
+    }
+}

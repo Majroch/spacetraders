@@ -16,3 +16,9 @@ void putFileData(std::string filename, std::string content);
 
 // check if file exists
 bool fileExists(std::string filename);
+
+// Change string to lowercase
+void _toLower(std::string *_str);
+
+// Change string to uppercase
+void _toUpper(std::string *_str);
