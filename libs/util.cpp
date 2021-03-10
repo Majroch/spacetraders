@@ -1,21 +1,25 @@
 #include "util.h"
 
 #include <curl/curl.h>
+#include <json/value.h>
 #include <string>
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
+#include <json/json.h>
+#include <vector>
 
 size_t writeFunction(void *ptr, size_t size, size_t nmemb, std::string* data) {
     data->append((char*) ptr, size * nmemb);
     return size * nmemb;
 }
 
-std::string GETData(std::string address) {
+std::string GETData(std::string address, std::string data) {
     auto curl = curl_easy_init();
     if(curl) {
         std::string addr(API);
         addr.append(address);
+        addr.append("?" + data);
 
         std::string response_string, header_string;
         curl_easy_setopt(curl, CURLOPT_URL, addr.c_str());
@@ -108,4 +112,39 @@ void _toUpper(std::string *_str) {
     for(long unsigned int i = 0; i < (*_str).length(); i++) {
         (*_str)[i] = toupper((*_str)[i]);
     }
+}
+
+Json::Value fetchJson(std::string data) {
+    Json::Reader reader;
+    Json::Value root;
+  
+    bool parseSuccess = reader.parse(data, root, false);
+  
+    if (parseSuccess) {
+        return root;
+    }
+
+    return NULL;
+}
+
+void renderMenu(std::vector<std::string> *options, bool show_exit) {
+    for(unsigned int i = 0; i < (*options).size(); i++) {
+        std::cout << i+1 << ". " << (*options)[i] << std::endl;
+    }
+    if(show_exit) {
+        std::cout << "99. Exit" << std::endl;
+    }
+}
+
+void renderUserInfo(User *user) {
+    std::string json_data = GETData("/users/" + (*user).getUsername(), "token=" + (*user).getToken());
+    Json::Value data = fetchJson(json_data);
+    std::cout << "###### USER INFO ######" << std::endl;
+    std::cout << "Username: " << data["user"]["username"].asString() << std::endl;
+    std::cout << "Credits: " << data["user"]["credits"].asString() << std::endl;
+    std::cout << "#######################" << std::endl << std::endl;
+}
+
+void clearScreen() {
+    system("clear");
 }

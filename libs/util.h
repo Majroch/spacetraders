@@ -1,9 +1,13 @@
 #define API "https://api.spacetraders.io"
 
+#include <json/value.h>
 #include <string>
+#include <json/json.h>
+#include <vector>
+#include "../classes/user.h"
 
 // Function to send GET requests (not sure if it makes GET or POST requests anyway)
-std::string GETData(std::string address);
+std::string GETData(std::string address, std::string data);
 
 // Function to send POST requests with data
 std::string POSTData(std::string address, std::string data);
@@ -22,3 +26,15 @@ void _toLower(std::string *_str);
 
 // Change string to uppercase
 void _toUpper(std::string *_str);
+
+// Return json object after fetching data
+Json::Value fetchJson(std::string data);
+
+// Render menu with numbers
+void renderMenu(std::vector<std::string> *options, bool show_exit = false);
+
+// Render user information (fresh, current)
+void renderUserInfo(User *user);
+
+// Clear screen
+void clearScreen();

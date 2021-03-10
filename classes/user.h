@@ -1,4 +1,4 @@
-#include<string>
+#include <string>
 
 class User {
     private:
@@ -6,7 +6,6 @@ class User {
     std::string token;
 
     public:
-    User();
     User(std::string _username, std::string _token);
 
     std::string getUsername();
