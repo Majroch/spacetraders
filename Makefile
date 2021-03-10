@@ -12,7 +12,7 @@ util.o:
 	$(CXX) $(CXXFLAGS_IMPORTANT) -c ./libs/util.cpp -o util.o
 
 user.o:
-	$(CXX) $(CXXFLAGS_IMPORTANT) -c ./libs/user.cpp -o user.o
+	$(CXX) $(CXXFLAGS_IMPORTANT) -c ./classes/user.cpp -o user.o
 
 clean:
 	$(RM) $(LIBS) $(PROGRAM_NAME)
