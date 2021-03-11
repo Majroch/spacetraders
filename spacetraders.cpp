@@ -20,12 +20,13 @@ void showLoans(User *user) {
         std::cout << "\tTerm In Days: " << data["loans"][i]["termInDays"].asString() << std::endl << std::endl;
     }
     std::cout << "###################" << std::endl;
-    std::cout << "Type loan name or leave blank to go back.\n>> ";
+    std::cout << "Type loan name. Enter 'NULL' for leaving:" << std::endl;
+    std::cout << ">> ";
     std::string type = "";
     std::cin >> type;
-    std::cout << type << std::endl;
+    //std::cout << type << std::endl;
 
-    if(type != ""){
+    if(type != "NULL"){
         std::string callback;
         callback = POSTData("/users/" + (*user).getUsername() + "/loans", "token=" + (*user).getToken() + " & type=" + type);
         if(callback == "ERROR")
@@ -51,7 +52,8 @@ int main(void) {
             return -1;
         }
 
-        std::cout << std::endl << "Create username:\n>> ";
+        std::cout << std::endl << "Create username:" << std::endl;
+        std::cout << ">> ";
         std::string username = "";
 
         std::cin >> username;
@@ -67,7 +69,7 @@ int main(void) {
     }
 
     // We have a token.txt file
-    // Now we need to load its
+    // Now we need to load it
 
     std::string user_credentials = getFileData("token.txt");
     Json::Value data = fetchJson(user_credentials);
@@ -84,7 +86,7 @@ int main(void) {
 
     while(true) {
         clearScreen();
-        std::cout << "\033[1;32mbold red text\033[0m\n";
+        //std::cout << "\033[1;32mbold red text\033[0m\n";
         renderUserInfo(&user);
         renderMenu(&menu, true);
 
