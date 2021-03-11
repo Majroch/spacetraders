@@ -27,13 +27,21 @@ void showLoans(User *user) {
     //std::cout << type << std::endl;
 
     if(type != "NULL"){
-        std::string callback;
-        callback = POSTData("/users/" + (*user).getUsername() + "/loans", "token=" + (*user).getToken() + " & type=" + type);
+        std::string callback = POSTData("/users/" + (*user).getUsername() + "/loans" + "?token=" + (*user).getToken(), "type=" + type);
         if(callback == "ERROR")
         {
             std::cout << "Wrong loan name." << std::endl;
         }
     }
+}
+
+void renderUserInfo(User *user) {
+    std::string json_data = GETData("/users/" + (*user).getUsername(), "token=" + (*user).getToken());
+    Json::Value data = fetchJson(json_data);
+    std::cout << "###### USER INFO ######" << std::endl;
+    std::cout << "Username: " << data["user"]["username"].asString() << std::endl;
+    std::cout << "Credits: " << data["user"]["credits"].asString() << std::endl;
+    std::cout << "#######################" << std::endl << std::endl;
 }
 
 int main(void) {

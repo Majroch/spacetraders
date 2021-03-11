@@ -136,15 +136,6 @@ void renderMenu(std::vector<std::string> *options, bool show_exit) {
     }
 }
 
-void renderUserInfo(User *user) {
-    std::string json_data = GETData("/users/" + (*user).getUsername(), "token=" + (*user).getToken());
-    Json::Value data = fetchJson(json_data);
-    std::cout << "###### USER INFO ######" << std::endl;
-    std::cout << "Username: " << data["user"]["username"].asString() << std::endl;
-    std::cout << "Credits: " << data["user"]["credits"].asString() << std::endl;
-    std::cout << "#######################" << std::endl << std::endl;
-}
-
 void clearScreen() {
     system("clear");
 }

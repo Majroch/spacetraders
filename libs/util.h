@@ -33,8 +33,5 @@ Json::Value fetchJson(std::string data);
 // Render menu with numbers
 void renderMenu(std::vector<std::string> *options, bool show_exit = false);
 
-// Render user information (fresh, current)
-void renderUserInfo(User *user);
-
 // Clear screen
 void clearScreen();
