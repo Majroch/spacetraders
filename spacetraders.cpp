@@ -19,9 +19,20 @@ void showLoans(User *user) {
         std::cout << "\tRate: " << data["loans"][i]["rate"].asString() << std::endl;
         std::cout << "\tTerm In Days: " << data["loans"][i]["termInDays"].asString() << std::endl << std::endl;
     }
-    std::cout << "###################" << std::endl << std::endl;
-    
-    sleep(10);
+    std::cout << "###################" << std::endl;
+    std::cout << "Type loan name or leave blank to go back.\n>> ";
+    std::string type = "";
+    std::cin >> type;
+    std::cout << type << std::endl;
+
+    if(type != ""){
+        std::string callback;
+        callback = POSTData("/users/" + (*user).getUsername() + "/loans", "token=" + (*user).getToken() + " & type=" + type);
+        if(callback == "ERROR")
+        {
+            std::cout << "Wrong loan name." << std::endl;
+        }
+    }
 }
 
 int main(void) {
@@ -40,9 +51,7 @@ int main(void) {
             return -1;
         }
 
-        std::cout << "Good, we will create you the account" << std::endl;
-
-        std::cout << std::endl << "So, tell me your username: ";
+        std::cout << std::endl << "Create username:\n>> ";
         std::string username = "";
 
         std::cin >> username;
@@ -58,7 +67,7 @@ int main(void) {
     }
 
     // We have a token.txt file
-    // Now we need to load it
+    // Now we need to load its
 
     std::string user_credentials = getFileData("token.txt");
     Json::Value data = fetchJson(user_credentials);
@@ -66,20 +75,27 @@ int main(void) {
     User user(data["user"]["username"].asString(), data["token"].asString());
 
     std::vector<std::string> menu;
-    menu.push_back("Show available loans");
+    menu.push_back("Loans");
+    menu.push_back("Ships");
+    menu.push_back("Fuel");
+    menu.push_back("Planets");
+    menu.push_back("Trade");
+    menu.push_back("Help");
 
     while(true) {
         clearScreen();
+        std::cout << "\033[1;32mbold red text\033[0m\n";
         renderUserInfo(&user);
         renderMenu(&menu, true);
 
         std::string choice;
-        std::cout << ">> ";
+        std::cout << "\n>> ";
         std::cin >> choice;
+        _toLower(&choice);
 
-        if(choice == "1") {
+        if(choice == "1" || choice == "loans") {
             showLoans(&user);
-        } else if(choice == "99") {
+        } else if(choice == "99" || choice == "exit") {
             std::cout << "Exitting..." << std::endl;
             return 0;
         }
