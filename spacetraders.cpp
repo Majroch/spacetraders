@@ -20,19 +20,68 @@ void showLoans(User *user) {
         std::cout << "\tTerm In Days: " << data["loans"][i]["termInDays"].asString() << std::endl << std::endl;
     }
     std::cout << "###################" << std::endl;
-    std::cout << "Type loan name. Enter 'NULL' for leaving:" << std::endl;
+    std::cout << "Type loan name. Enter 'null' for leaving:" << std::endl;
     std::cout << ">> ";
     std::string type = "";
     std::cin >> type;
     //std::cout << type << std::endl;
 
-    if(type != "NULL"){
+    if(type != "null"){
         std::string callback = POSTData("/users/" + (*user).getUsername() + "/loans" + "?token=" + (*user).getToken(), "type=" + type);
         if(callback == "ERROR")
         {
             std::cout << "Wrong loan name." << std::endl;
         }
     }
+}
+
+void showShips(User *user){
+    clearScreen();
+    std::string json_data = GETData("/game/ships", "token=" + (*user).getToken());
+    Json::Value data = fetchJson(json_data);
+
+    std::cout << "###### SHIPS ######" << std::endl;
+    for(unsigned int i = 0; i < data["ships"].size(); i++){
+        std::cout << std::endl << "[Type: " << data["ships"][i]["type"].asString() << "]" << std::endl;
+        std::cout << "\tClass: " << data["ships"][i]["class"].asString() << std::endl;
+        std::cout << "\tMax Cargo: " << data["ships"][i]["maxCargo"].asString() << std::endl;
+        std::cout << "\tSpeed: " << data["ships"][i]["speed"].asString() << std::endl;
+        std::cout << "\tManufacturer: " << data["ships"][i]["manufacturer"].asString() << std::endl;
+        std::cout << "\tPlating: " << data["ships"][i]["plating"].asString() << std::endl;
+        std::cout << "\tWeapons: " << data["ships"][i]["weapons"].asString() << std::endl;
+        for(unsigned int j = 0; j < data["ships"][i]["purchaseLocations"].size(); j++){
+            std::cout << "\t\tLocation: " << data["ships"][i]["purchaseLocations"][j]["location"].asString() << std::endl;
+            std::cout << "\t\tPrice: " << data["ships"][i]["purchaseLocations"][j]["price"].asString() << std::endl;
+        }
+    }
+    std::cout << "###################" << std::endl;
+    std::cout << "Enter ship name or 'null' for leaving:" << std::endl;
+        std::cout << "type: ";
+    std::string type = "", location = "";
+    std::cin >> type;
+    std::cout << "\nlocation: ";
+    std::cin >> location;
+
+    if(type != "null"){
+
+        std::string callback = POSTData("/users/" + (*user).getUsername() + "/ships" + "?token=" + (*user).getToken(), "location=" + location + "&type=" + type);
+        if(callback == "ERROR"){
+            std::cout << "Wrong ship data." << std::endl;
+        } 
+    }
+}
+
+void buyFuel(User *user)
+{
+    clearScreen();
+    std::string json_data = GETData("/users/" + (*user).getUsername(), "token=" + (*user).getToken());
+    Json::Value data = fetchJson(json_data);
+    std::cout << "###### FUEL ######" << std::endl;
+    std::cout << "Credits: " << data["user"]["credits"].asString() << std::endl << std::endl;
+
+    // json_data = GETData("/game/ships", "token=" + (*user).getToken());
+    // data = fetchJson(json_data);
+
 }
 
 void renderUserInfo(User *user) {
@@ -86,7 +135,7 @@ int main(void) {
 
     std::vector<std::string> menu;
     menu.push_back("Loans");
-    menu.push_back("Ships");
+    menu.push_back("Ships show/buy/sell");
     menu.push_back("Fuel");
     menu.push_back("Planets");
     menu.push_back("Trade");
@@ -105,6 +154,10 @@ int main(void) {
 
         if(choice == "1" || choice == "loans") {
             showLoans(&user);
+
+        } else if(choice == "2" || choice == "ships") {
+            showShips(&user);
+
         } else if(choice == "99" || choice == "exit") {
             std::cout << "Exitting..." << std::endl;
             return 0;

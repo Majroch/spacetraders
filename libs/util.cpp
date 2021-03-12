@@ -136,6 +136,10 @@ void renderMenu(std::vector<std::string> *options, bool show_exit) {
     }
 }
 
+std::string setColor(std::string *_str, std::string *color){
+    return "\033[1;" + *color + "m " + *_str + "\033[0m\n";
+}
+
 void clearScreen() {
     system("clear");
 }
