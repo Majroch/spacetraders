@@ -11,7 +11,7 @@ void showLoans(User *user) {
     std::string json_data = GETData("/game/loans", "token=" + (*user).getToken());
     Json::Value data = fetchJson(json_data);
 
-    std::cout << "###### LOANS ######" << std::endl;
+    std::cout << setColor("[    LOANS    ]", "32", true) << std::endl;
     for(unsigned int i = 0; i < data["loans"].size(); i++) {
         std::cout << std::endl << "Loan Type: " << data["loans"][i]["type"].asString() << std::endl;
         std::cout << "\tAmount: " << data["loans"][i]["amount"].asString() << std::endl;
@@ -19,8 +19,7 @@ void showLoans(User *user) {
         std::cout << "\tRate: " << data["loans"][i]["rate"].asString() << std::endl;
         std::cout << "\tTerm In Days: " << data["loans"][i]["termInDays"].asString() << std::endl << std::endl;
     }
-    std::cout << "###################" << std::endl;
-    std::cout << "Type loan name. Enter 'null' for leaving:" << std::endl;
+    std::cout << "\nType loan name. Enter 'null' for leaving:" << std::endl;
     std::cout << ">> ";
     std::string type = "";
     std::cin >> type;
@@ -40,29 +39,28 @@ void showShips(User *user){
     std::string json_data = GETData("/game/ships", "token=" + (*user).getToken());
     Json::Value data = fetchJson(json_data);
 
-    std::cout << "###### SHIPS ######" << std::endl;
+    std::cout << setColor("[    SHIPS    ]", "32", true) << std::endl;
     for(unsigned int i = 0; i < data["ships"].size(); i++){
-        std::cout << std::endl << "[Type: " << data["ships"][i]["type"].asString() << "]" << std::endl;
-        std::cout << "\tClass: " << data["ships"][i]["class"].asString() << std::endl;
-        std::cout << "\tMax Cargo: " << data["ships"][i]["maxCargo"].asString() << std::endl;
-        std::cout << "\tSpeed: " << data["ships"][i]["speed"].asString() << std::endl;
-        std::cout << "\tManufacturer: " << data["ships"][i]["manufacturer"].asString() << std::endl;
-        std::cout << "\tPlating: " << data["ships"][i]["plating"].asString() << std::endl;
-        std::cout << "\tWeapons: " << data["ships"][i]["weapons"].asString() << std::endl;
+        std::cout << std::endl << setColor("[ Type: ", "34", true) << setColor(data["ships"][i]["type"].asString(), "34", false) << setColor(" ]", "34", false) << std::endl;
+        std::cout << setColor("\tClass: ", "34", true) << data["ships"][i]["class"].asString() << std::endl;
+        std::cout << setColor("\tMax Cargo: ", "34", true) << data["ships"][i]["maxCargo"].asString() << std::endl;
+        std::cout << setColor("\tSpeed: ", "34", true) << data["ships"][i]["speed"].asString() << std::endl;
+        std::cout << setColor("\tManufacturer: ", "34", true) << data["ships"][i]["manufacturer"].asString() << std::endl;
+        std::cout << setColor("\tPlating: ", "34", true) << data["ships"][i]["plating"].asString() << std::endl;
+        std::cout << setColor("\tWeapons: ", "34", true) << data["ships"][i]["weapons"].asString() << std::endl;
         for(unsigned int j = 0; j < data["ships"][i]["purchaseLocations"].size(); j++){
             std::cout << "\t\tLocation: " << data["ships"][i]["purchaseLocations"][j]["location"].asString() << std::endl;
             std::cout << "\t\tPrice: " << data["ships"][i]["purchaseLocations"][j]["price"].asString() << std::endl;
         }
     }
-    std::cout << "###################" << std::endl;
-    std::cout << "Enter ship name or 'null' for leaving:" << std::endl;
+    std::cout << "\nEnter ship name or 'null' for leaving:" << std::endl;
         std::cout << "type: ";
     std::string type = "", location = "";
     std::cin >> type;
-    std::cout << "\nlocation: ";
-    std::cin >> location;
 
     if(type != "null"){
+        std::cout << "\nlocation: ";
+        std::cin >> location;
 
         std::string callback = POSTData("/users/" + (*user).getUsername() + "/ships" + "?token=" + (*user).getToken(), "location=" + location + "&type=" + type);
         if(callback == "ERROR"){
@@ -76,7 +74,7 @@ void buyFuel(User *user)
     clearScreen();
     std::string json_data = GETData("/users/" + (*user).getUsername(), "token=" + (*user).getToken());
     Json::Value data = fetchJson(json_data);
-    std::cout << "###### FUEL ######" << std::endl;
+    std::cout << setColor("[    FUEL    ]", "32", true) << std::endl;
     std::cout << "Credits: " << data["user"]["credits"].asString() << std::endl << std::endl;
 
     // json_data = GETData("/game/ships", "token=" + (*user).getToken());
@@ -87,10 +85,10 @@ void buyFuel(User *user)
 void renderUserInfo(User *user) {
     std::string json_data = GETData("/users/" + (*user).getUsername(), "token=" + (*user).getToken());
     Json::Value data = fetchJson(json_data);
-    std::cout << "###### USER INFO ######" << std::endl;
+    std::cout << setColor("[    USER INFO    ]", "32", false) << std::endl;
     std::cout << "Username: " << data["user"]["username"].asString() << std::endl;
     std::cout << "Credits: " << data["user"]["credits"].asString() << std::endl;
-    std::cout << "#######################" << std::endl << std::endl;
+    std::cout << setColor("\n[    ACTIONS    ]", "32", false) << std::endl;
 }
 
 int main(void) {

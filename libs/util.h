@@ -37,4 +37,4 @@ void renderMenu(std::vector<std::string> *options, bool show_exit = false);
 void clearScreen();
 
 // Print text in color
-std::string setColor(std::string *_str, std::string *color);
+std::string setColor(std::string _str, std::string color, bool isBold);
